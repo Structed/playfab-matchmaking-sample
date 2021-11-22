@@ -24,8 +24,11 @@ try
         players.Add(player);
         playerPlayFabIds.Add(player.PlayFabId);
     }
-
+    
+    var group = new Group(players, players.First());
     await BefriendPlayers(players, playerPlayFabIds);
+
+    group.MakeMatch();
 }
 catch (Exception ex)
 {

@@ -1,15 +1,43 @@
-﻿using PlayFab.ClientModels;
+﻿using EntityKey = PlayFab.MultiplayerModels.EntityKey;
 
 namespace Client;
 
 public class Group
 {
-    public List<Player> Players { get; }
-    public Player Leader { get; }
+    private List<Player> Players { get; }
+    private Player Leader { get; }
 
     public Group(List<Player> players, Player leader)
     {
         Players = players;
         Leader = leader;
+    }
+
+    public async void MakeMatch()
+    {
+        var otherPLayers = Players.Where(player => player.PlayFabId != Leader.PlayFabId);
+
+        var entityKeys = new List<EntityKey>();
+        foreach (var player in otherPLayers)
+        {
+            entityKeys.Add(new EntityKey
+            {
+                Id = player.context.EntityId,
+                Type = player.context.EntityType
+            });
+        }
+        
+        var ticketId = await this.Leader.CreateGroupMatchmakingTicket(entityKeys);
+        // this.Leader.GetTicketState(ticketId);
+        foreach (var player in Players)
+        {
+            player.JoinMatchmakingTicket(ticketId);
+            // this.Leader.GetTicketState(ticketId);
+        }
+
+        while ((await this.Leader.GetTicketState(ticketId)) != "Matched")
+        {
+            await Task.Delay(6000);
+        }
     }
 }
