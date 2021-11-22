@@ -11,10 +11,21 @@ var playFabApiSettings = new PlayFabApiSettings
     TitleId = titleId
 };
 
+var players = new List<Player>();
+var playerPlayFabIds = new List<string>();
+
 try
 {
-    var player = new Player(Guid.NewGuid().ToString(), playFabApiSettings);
-    await Login(player);
+    for (int i = 0; i < 3; i++)
+    {
+        string customId = Guid.NewGuid().ToString();
+        var player = new Player(customId, playFabApiSettings);
+        await Login(player);
+        players.Add(player);
+        playerPlayFabIds.Add(player.PlayFabId);
+    }
+
+    await BefriendPlayers(players, playerPlayFabIds);
 }
 catch (Exception ex)
 {
@@ -45,4 +56,16 @@ static TResult VerifyPlayFabCall<TResult>(PlayFabResult<TResult> playFabResult, 
         throw new Exception($"{throwMsg} HttpStatus={playFabResult.Error.HttpStatus}");
     }
     return playFabResult.Result;
+}
+
+async Task BefriendPlayers(List<Player> playerList, List<string> playerPlayFabIdList)
+{
+    foreach (var player in playerList)
+    {
+        var friendIds = playerPlayFabIdList.Except(new[] { player.PlayFabId });
+        foreach (var friendId in friendIds)
+        {
+            await player.AddFriend(FriendIdType.PlayFabId, friendId);
+        }
+    }
 }
