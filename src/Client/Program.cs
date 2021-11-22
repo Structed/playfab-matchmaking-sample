@@ -48,16 +48,6 @@ async Task Login(Player player)
     AnsiConsole.MarkupLine($"[green]Logged in player {login.Result.PlayFabId}, CustomId={loginRequest.CustomId}[/]");
 }
 
-static TResult VerifyPlayFabCall<TResult>(PlayFabResult<TResult> playFabResult, string throwMsg) where TResult : PlayFab.Internal.PlayFabResultCommon
-{
-    if (playFabResult.Error != null)
-    {
-        AnsiConsole.MarkupLine($"[red]{playFabResult.Error.GenerateErrorReport()}[/]");
-        throw new Exception($"{throwMsg} HttpStatus={playFabResult.Error.HttpStatus}");
-    }
-    return playFabResult.Result;
-}
-
 async Task BefriendPlayers(List<Player> playerList, List<string> playerPlayFabIdList)
 {
     foreach (var player in playerList)
@@ -68,4 +58,14 @@ async Task BefriendPlayers(List<Player> playerList, List<string> playerPlayFabId
             await player.AddFriend(FriendIdType.PlayFabId, friendId);
         }
     }
+}
+
+static TResult VerifyPlayFabCall<TResult>(PlayFabResult<TResult> playFabResult, string throwMsg) where TResult : PlayFab.Internal.PlayFabResultCommon
+{
+    if (playFabResult.Error != null)
+    {
+        AnsiConsole.MarkupLine($"[red]{playFabResult.Error.GenerateErrorReport()}[/]");
+        throw new Exception($"{throwMsg} HttpStatus={playFabResult.Error.HttpStatus}");
+    }
+    return playFabResult.Result;
 }
