@@ -28,7 +28,7 @@ try
     var group = new Group(players, players.First());
     await BefriendPlayers(players, playerPlayFabIds);
 
-    group.MakeMatch();
+    await group.MakeMatch();
 }
 catch (Exception ex)
 {

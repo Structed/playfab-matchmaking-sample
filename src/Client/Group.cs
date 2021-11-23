@@ -13,7 +13,7 @@ public class Group
         Leader = leader;
     }
 
-    public async void MakeMatch()
+    public async Task MakeMatch()
     {
         var otherPLayers = Players.Where(player => player.PlayFabId != Leader.PlayFabId);
 
