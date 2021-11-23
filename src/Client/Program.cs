@@ -16,7 +16,7 @@ var playerPlayFabIds = new List<string>();
 
 try
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 4; i++)
     {
         string customId = Guid.NewGuid().ToString();
         var player = new Player(customId, playFabApiSettings);
