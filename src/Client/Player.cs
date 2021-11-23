@@ -100,7 +100,7 @@ public class Player
             throw new Exception(ticket.Error.GenerateErrorReport());
         }
 
-        Console.WriteLine(ticket.Result.Status);
+        Console.WriteLine($"Status of Ticket ID {ticket.Result.TicketId}: {ticket.Result.Status}");
         return ticket.Result.Status;
     }
 
