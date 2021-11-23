@@ -35,8 +35,12 @@ public class Group
             // this.Leader.GetTicketState(ticketId);
         }
 
-        while ((await this.Leader.GetTicketState(ticketId)) != "Matched")
+        while ((await this.Leader.GetTicketState(ticketId)) != "Matched" || (await this.Leader.GetTicketState(ticketId)) != "Canceled")
         {
+            if (await this.Leader.GetTicketState(ticketId) == "Canceled")
+            {
+                break;
+            }
             await Task.Delay(6000);
         }
     }
