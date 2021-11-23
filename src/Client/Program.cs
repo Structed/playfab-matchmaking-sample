@@ -24,7 +24,7 @@ try
         players.Add(player);
         playerPlayFabIds.Add(player.PlayFabId);
     }
-    
+
     var group = new Group(players, players.First());
     await BefriendPlayers(players, playerPlayFabIds);
 
@@ -32,7 +32,7 @@ try
 }
 catch (Exception ex)
 {
-    AnsiConsole.WriteException(ex, 
+    AnsiConsole.WriteException(ex,
         ExceptionFormats.ShortenPaths | ExceptionFormats.ShortenTypes |
         ExceptionFormats.ShortenMethods | ExceptionFormats.ShowLinks);
 }
@@ -63,7 +63,8 @@ async Task BefriendPlayers(List<Player> playerList, List<string> playerPlayFabId
     }
 }
 
-static TResult VerifyPlayFabCall<TResult>(PlayFabResult<TResult> playFabResult, string throwMsg) where TResult : PlayFab.Internal.PlayFabResultCommon
+static TResult VerifyPlayFabCall<TResult>(PlayFabResult<TResult> playFabResult, string throwMsg)
+    where TResult : PlayFab.Internal.PlayFabResultCommon
 {
     if (playFabResult.Error != null)
     {
