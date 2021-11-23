@@ -28,11 +28,9 @@ public class Group
         }
         
         var ticketId = await this.Leader.CreateGroupMatchmakingTicket(entityKeys);
-        // this.Leader.GetTicketState(ticketId);
         foreach (var player in Players)
         {
             player.JoinMatchmakingTicket(ticketId);
-            // this.Leader.GetTicketState(ticketId);
         }
 
         string ticketState = "";
