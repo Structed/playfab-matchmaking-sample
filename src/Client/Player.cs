@@ -47,20 +47,11 @@ public class Player
                 {
                     Id = this.context.EntityId,
                     Type = this.context.EntityType
-                },
-
-                // Here we specify the creator's attributes.
-                Attributes = new MatchmakingPlayerAttributes
-                {
-                    DataObject = new
-                    {
-                        Skill = 24.4
-                    },
-                },
+                }
             },
 
             // Cancel matchmaking if a match is not found after 120 seconds.
-            GiveUpAfterSeconds = 120,
+            GiveUpAfterSeconds = 120,   // rule eval only every 10 seconds
 
             // The name of the queue to submit the ticket into.
             QueueName = this.queueName,
@@ -86,16 +77,9 @@ public class Player
             {
                 Entity = new EntityKey
                 {
-                    Id = "<Entity ID goes here>",
-                    Type = "<Entity type goes here>",
-                },
-                Attributes = new MatchmakingPlayerAttributes
-                {
-                    DataObject = new
-                    {
-                        Skill = 19.3
-                    },
-                },
+                    Id = this.context.EntityId,
+                    Type = this.context.EntityType,
+                }
             }
         };
         await this.mpApi.JoinMatchmakingTicketAsync(request);
@@ -137,7 +121,6 @@ public class Player
                 break;
         }
         // Execute request and update friends when we are done
-        // this.clientInstanceApi.AddFriendAsync()
         return this.clientApi.AddFriendAsync(request);
     }
 }
