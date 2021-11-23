@@ -51,7 +51,7 @@ public class Player
             },
 
             // Cancel matchmaking if a match is not found after 120 seconds.
-            GiveUpAfterSeconds = 120,   // rule eval only every 10 seconds
+            GiveUpAfterSeconds = 60,   // rule eval only every 10 seconds
 
             // The name of the queue to submit the ticket into.
             QueueName = this.queueName,
