@@ -3,7 +3,12 @@
 using Client;
 using PlayFab;
 using PlayFab.ClientModels;
+using Serilog;
 using Spectre.Console;
+
+using var log = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
 
 var titleId = "60852"; // Group Matchmaking
 var playFabApiSettings = new PlayFabApiSettings
@@ -25,7 +30,7 @@ try
         playerPlayFabIds.Add(player.PlayFabId);
     }
 
-    var group = new Group(players, players.First());
+    var group = new Group(players, players.First(), log);
     await BefriendPlayers(players, playerPlayFabIds);
 
     await group.MakeMatch();

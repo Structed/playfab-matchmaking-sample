@@ -85,7 +85,7 @@ public class Player
         await this.mpApi.JoinMatchmakingTicketAsync(request);
     }
     
-    public async Task<string> GetTicketState(string ticketId)
+    public async Task<GetMatchmakingTicketResult> GetTicketState(string ticketId)
     {
         var request = new GetMatchmakingTicketRequest
         {
@@ -101,7 +101,7 @@ public class Player
         }
 
         Console.WriteLine($"Status of Ticket ID {ticket.Result.TicketId}: {ticket.Result.Status}");
-        return ticket.Result.Status;
+        return ticket.Result;
     }
 
     public Task AddFriend(FriendIdType idType, string friendId) {
